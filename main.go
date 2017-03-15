@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"math/rand"
 
 	"github.com/davecgh/go-spew/spew"
 	"github.com/gonum/matrix"
@@ -19,7 +20,7 @@ func pinv(base []float64, i, j int) mat64.Dense {
 	vm.VFromSVD(&SVD)
 	w := SVD.Values(nil)
 
-	wm := mat64.NewDense(2, 2, nil)
+	wm := mat64.NewDense(i, j, nil)
 	leng := len(w)
 	for i, v := range w {
 		for j := 0; j < leng; j++ {
@@ -66,6 +67,12 @@ func main() {
 	s3m.Mul(&s2m, &vm2)
 	inv2.Inverse(&s3m)
 
-	m4 := mat64.NewDense(2, 2, nil)
+	data := make([]float64, 36)
+	for i := range data {
+		data[i] = rand.NormFloat64()
+	}
+
+	rets2 := pinv(data, 6, 6)
+	spew.Println(rets2)
 
 }
